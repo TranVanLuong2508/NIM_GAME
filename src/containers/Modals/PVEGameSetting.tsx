@@ -23,6 +23,11 @@ const PVEGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
 
     const [activeTab, seActiveTab] = useState<string>("customize")
 
+    const coloseModal = (): void => {
+        seActiveTab('customize')
+        onClose()
+    }
+
     const handleStartGame = (): void => {
         onStartGame(settings)
     }
@@ -48,7 +53,7 @@ const PVEGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
                                     variant={"ghost"}
                                     size={"sm"}
                                     className='text-white/70 hover:text-white hover:bg-white/10 p-2'
-                                    onClick={() => { onClose() }}
+                                    onClick={() => { coloseModal() }}
                                 >
                                     <ArrowLeft
                                         className='w-5 h-5 cursor-pointer'
@@ -61,22 +66,22 @@ const PVEGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
                             <motion.button
                                 variants={tabVariants}
                                 animate={activeTab === "customize" ? "active" : "inactive"}
-                                className='flex-1 justify-center flex items-center space-x-2 py-3 rounded-lg transition-all duration-200 cursor-pointer'
+                                className='flex-1 justify-center flex items-center space-x-2 py-3 rounded-lg  cursor-pointer'
                                 onClick={() => seActiveTab("customize")}
                             >
                                 <Settings
                                     className='w-4 h-4'
                                 />
-                                <span className='text-sm font-medium '>Tùy chỉnh trò chơi</span>
+                                <div className='flex items-center'><span className='text-[14px] font-medium '>Tùy chỉnh trò chơi</span></div>
                             </motion.button>
                             <motion.button
                                 variants={tabVariants}
                                 onClick={() => seActiveTab("rule")}
                                 animate={activeTab === "rule" ? "active" : "inactive"}
-                                className='flex-1 flex justify-center items-center space-x-2 py-3 rounded-lg transition-all duration-200 cursor-pointer'
+                                className='flex-1 flex justify-center items-center space-x-2 py-3 rounded-lg   cursor-pointer'
                             >
                                 <ScrollText className='w-4 h-4' />
-                                <span className='text-sm font-medium '>Luật chơi</span>
+                                <div className='flex items-center'><span className=' text-[14px]  font-medium '>Luật chơi</span></div>
                             </motion.button>
                         </div>
                         <div className="content p-6 space-y-6 min-h-[340px]">
@@ -155,7 +160,7 @@ const PVEGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
                         </div>
                         <div className="footer flex space-x-3 p-6 border-t border-white/10">
                             <Button className='flex-1 text-white/70 hover:text-white hover:bg-white/10 border border-white/20 cursor-pointer'
-                                onClick={() => { onClose() }}
+                                onClick={() => { coloseModal() }}
                             >
                                 Cancel
                             </Button>

@@ -24,6 +24,11 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
 
     const [activeTab, seActiveTab] = useState<string>("customize")
 
+    const coloseModal = (): void => {
+        seActiveTab('customize')
+        onClose()
+    }
+
     const handleStartGame = (): void => {
         onStartGame(settings)
     }
@@ -49,7 +54,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
                                     variant={"ghost"}
                                     size={"sm"}
                                     className='text-white/70 hover:text-white hover:bg-white/10 p-2'
-                                    onClick={() => { onClose() }}
+                                    onClick={() => { coloseModal() }}
                                 >
                                     <ArrowLeft
                                         className='w-5 h-5 cursor-pointer'
@@ -156,7 +161,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
                         </div>
                         <div className="footer flex space-x-3 p-6 border-t border-white/10">
                             <Button className='flex-1 text-white/70 hover:text-white hover:bg-white/10 border border-white/20 cursor-pointer'
-                                onClick={() => { onClose() }}
+                                onClick={() => { coloseModal() }}
                             >
                                 Cancel
                             </Button>
