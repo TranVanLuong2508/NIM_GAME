@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from '@/containers/Home/HomePage'
-import GameRoomPVE from "@/containers/GameRoom/GameRoomPVE";
+import NimGame3D from "@/3d/scenes/NimGame3D";
 
 
 const App = () => {
@@ -8,7 +8,7 @@ const App = () => {
     <>
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/gamePVE' element={< GameRoomPVE />} />
+        <Route path='/gamePVE' element={< NimGame3D />} />
       </Routes>
     </>
   )

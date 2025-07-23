@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select"
 import { ArrowLeft, Settings, ScrollText } from "lucide-react"
 
-import type { PVESettingProps } from '@/types/PVESettingProps'
+import type { PVESettingProps } from '@/types/PropTypes/PVESettingProps'
 import type { GameSettings } from '@/types/PVESettingInterface'
 import modalVariants from '@/motion/variants/ModalVariants'
 import tabVariants from '@/motion/variants/TabVariants'

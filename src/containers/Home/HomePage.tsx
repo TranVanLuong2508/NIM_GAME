@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { motion } from "motion/react"
 import { Button } from '@/components/ui/button'
-import PVEGameSetting from '@/containers/Modals/PVEGameSetting'
-import PVPGameSetting from '@/containers/Modals/PVPGameSetting'
+import PVEGameSetting from '@/containers/Home/Modals/PVEGameSetting'
+import PVPGameSetting from '@/containers/Home/Modals/PVPGameSetting'
 import Particle from '@/motion/particle'
 import gameButtons from '@/containers/GameButton/GameButon'
 import buttonVariants from '@/motion/variants/buttonVariants'
