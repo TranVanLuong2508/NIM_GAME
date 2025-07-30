@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from "@react-three/drei"
 import Stone from '@/3d/models/Stone'
 import type { PileProps } from '@/types/PropTypes/PileProps'
-import { CalculatePosition } from '@react-three/drei/web/Html'
+import { calculateStonePositions } from '@/utils/gameLogic'
 
 const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, removingStones }: PileProps) => {
     const safeStones = Math.max(0, stones || 0)
@@ -26,10 +26,10 @@ const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, remov
         )
     }
 
-    const stonePositions = CalculatePosition(safeStones, safePosition)
+    const stonePositions = calculateStonePositions(safeStones, safePosition)
     return (
         <group>
-            {stonePositions.map((pos: number, index: number) => {
+            {stonePositions.map((pos, index) => {
                 const stoneNumber = safeStones - index
                 const isClickable = true
                 return (

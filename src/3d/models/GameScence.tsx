@@ -1,5 +1,17 @@
 import React from 'react'
 import { OrbitControls, Sky, Environment } from "@react-three/drei"
+import Pile from '@/3d/models/Pile'
+import type { StoneSelection, GameSettings } from '@/types/settings'
+import type { GameState } from '@/types/game'
+
+interface GameScenceProps {
+    piles: number[]
+    selectedStones: StoneSelection
+    onStoneClick: (pileIndex: number, stoneIndex: number) => void
+    removingStones: StoneSelection
+    gameState: GameState
+    settings: GameSettings
+}
 
 const GameScence = () => {
 
