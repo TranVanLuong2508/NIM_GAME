@@ -6,14 +6,31 @@ import type { GameState } from '@/types/game'
 
 interface GameScenceProps {
     piles: number[]
-    selectedStones: StoneSelection
-    onStoneClick: (pileIndex: number, stoneIndex: number) => void
-    removingStones: StoneSelection
-    gameState: GameState
-    settings: GameSettings
+    // selectedStones: StoneSelection
+    // onStoneClick: (pileIndex: number, stoneIndex: number) => void
+    // removingStones: StoneSelection
+    // gameState: GameState
+    // settings: GameSettings
 }
 
-const GameScence = () => {
+const GameScence = ({
+    piles,
+    // selectedStones,
+    // onStoneClick,
+    // removingStones,
+    // gameState,
+    // settings,
+}: GameScenceProps) => {
+
+    const safePiles = Array.isArray(piles) ? piles : []
+
+    const getPilePosition = (index: number): [number, number, number] => {
+        const spacing = 3 // Khoảng cách giữa các pile (cột)
+        const totalPiles = safePiles.length
+        const startX = -((totalPiles - 1) * spacing) / 2 // Căn giữa tất cả các pile
+
+        return [startX + index * spacing, 0, -2] // Z = -2 để bắt đầu từ phía trước
+    }
 
     return (
         <>
@@ -36,6 +53,37 @@ const GameScence = () => {
                 <planeGeometry args={[15, 20]} />
                 <meshStandardMaterial color="#f8fafc" roughness={0.8} />
             </mesh >
+
+            {safePiles.map((stones, index) => {
+                const position = getPilePosition(index)
+                const maxStones = Math.max(...safePiles, 5)
+                return (
+                    <mesh
+                        key={`$grid-${index}`}
+                        position={[position[0], -0.49, position[2] + (maxStones * 0.7) / 2]}
+                        rotation={[-Math.PI / 2, 0, 0]}
+                    >
+                        <planeGeometry args={[2, maxStones * 0.7 + 1]} />
+                        <meshStandardMaterial color="#e2e8f0" transparent opacity={0.2} />
+                    </mesh>
+                )
+            })}
+            {safePiles.map((stones, index) => {
+                const position = getPilePosition(index)
+                const stones_safe = Math.max(0, stones || 0)
+
+                return (
+                    <Pile
+                        key={index}
+                        stones={stones_safe}
+                        pileIndex={index}
+                        position={position}
+                    // selectedStones={selectedStones?.[index] || []}
+                    // onStoneClick={onStoneClick}
+                    // removingStones={removingStones?.[index] || []}
+                    />
+                )
+            })}
 
             <OrbitControls
                 enablePan={true}

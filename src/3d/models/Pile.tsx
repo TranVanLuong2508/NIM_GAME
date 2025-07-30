@@ -4,11 +4,11 @@ import Stone from '@/3d/models/Stone'
 import type { PileProps } from '@/types/PropTypes/PileProps'
 import { calculateStonePositions } from '@/utils/gameLogic'
 
-const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, removingStones }: PileProps) => {
+const Pile = ({ stones, pileIndex, position }: PileProps) => {
     const safeStones = Math.max(0, stones || 0)
     const safePosition: [number, number, number] = position || [0, 0, 0]
-    const safeSelectedStones = selectedStones || []
-    const safeRemovingStones = removingStones || []
+
+    console.log('pile')
 
     if (safeStones === 0) {
         return (
@@ -30,15 +30,15 @@ const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, remov
     return (
         <group>
             {stonePositions.map((pos, index) => {
-                const stoneNumber = safeStones - index
-                const isClickable = true
+                // const stoneNumber = safeStones - index
+                // const isClickable = true
                 return (
                     <Stone
                         position={pos}
-                        onClick={() => onStoneClick(pileIndex, stoneNumber)} // Số lượng stones sẽ lấy
-                        isSelected={safeSelectedStones.includes(index)}
-                        isRemoving={safeRemovingStones.includes(index)}
-                        isClickable={isClickable}
+                    // onClick={() => onStoneClick(pileIndex, stoneNumber)} // Số lượng stones sẽ lấy
+                    // isSelected={safeSelectedStones.includes(index)}
+                    // isRemoving={safeRemovingStones.includes(index)}
+                    // isClickable={isClickable}
                     />
                 )
             })}
@@ -48,7 +48,6 @@ const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, remov
                 color="#1f2937"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/Inter-Bold.ttf"
             >
                 {`Pile ${String.fromCharCode(65 + pileIndex)}`}
             </Text>
@@ -58,7 +57,6 @@ const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, remov
                 color="#6b7280"
                 anchorX="center"
                 anchorY="middle"
-                font="/fonts/Inter-Regular.ttf"
             >
                 {`${safeStones} stones`}
             </Text>
