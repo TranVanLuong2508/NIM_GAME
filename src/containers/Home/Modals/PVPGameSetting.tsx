@@ -142,7 +142,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
                                     >
                                         <div className="">
                                             <h3 className="text-white text-lg font-semibold text-center mb-1">Luật chơi NIM</h3>
-                                            <div className="back-blur bg-white/15 rounded-xl p-2">
+                                            <div className="back-blur bg-white/15 rounded-xl p-2 ">
                                                 <ul className="text-white/70 text-sm space-y-2 text-left max-w-md mx-auto list-decimal list-inside">
                                                     {GameRule.playSteps.map((step) => {
                                                         return (

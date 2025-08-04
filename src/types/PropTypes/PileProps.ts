@@ -3,7 +3,7 @@ interface PileProps {
     pileIndex: number
     position: [number, number, number]
     // selectedStones: number[]
-    // onStoneClick: (pileIndex: number, stoneIndex: number) => void
+    onStoneClick: (pileIndex: number, stoneIndex: number) => void
     // removingStones: number[]
 }
 

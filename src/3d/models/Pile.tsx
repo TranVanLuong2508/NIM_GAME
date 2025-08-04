@@ -4,13 +4,13 @@ import Stone from '@/3d/models/Stone'
 import type { PileProps } from '@/types/PropTypes/PileProps'
 import { calculateStonePositions } from '@/utils/gameLogic'
 
-const Pile = ({ stones, pileIndex, position }: PileProps) => {
-    const safeStones = Math.max(0, stones || 0)
+const Pile = ({ stones, pileIndex, position, onStoneClick }: PileProps) => {
+    const stoneCount = Math.max(0, stones || 0)
     const safePosition: [number, number, number] = position || [0, 0, 0]
 
     console.log('pile')
 
-    if (safeStones === 0) {
+    if (stoneCount === 0) {
         return (
             <group>
                 <Text
@@ -26,19 +26,16 @@ const Pile = ({ stones, pileIndex, position }: PileProps) => {
         )
     }
 
-    const stonePositions = calculateStonePositions(safeStones, safePosition)
+    const stonePositions = calculateStonePositions(stoneCount, safePosition)
+
     return (
         <group>
             {stonePositions.map((pos, index) => {
-                // const stoneNumber = safeStones - index
-                // const isClickable = true
+
                 return (
                     <Stone
                         position={pos}
-                    // onClick={() => onStoneClick(pileIndex, stoneNumber)} // Số lượng stones sẽ lấy
-                    // isSelected={safeSelectedStones.includes(index)}
-                    // isRemoving={safeRemovingStones.includes(index)}
-                    // isClickable={isClickable}
+                        onClick={() => { onStoneClick(pileIndex, index) }}
                     />
                 )
             })}
@@ -48,6 +45,7 @@ const Pile = ({ stones, pileIndex, position }: PileProps) => {
                 color="#1f2937"
                 anchorX="center"
                 anchorY="middle"
+
             >
                 {`Pile ${String.fromCharCode(65 + pileIndex)}`}
             </Text>
@@ -58,11 +56,11 @@ const Pile = ({ stones, pileIndex, position }: PileProps) => {
                 anchorX="center"
                 anchorY="middle"
             >
-                {`${safeStones} stones`}
+                {`${stoneCount} stones`}
             </Text>
 
-            <mesh position={[safePosition[0], safePosition[1] - 0.1, safePosition[2] + (safeStones * 0.7) / 2]}>
-                <boxGeometry args={[0.1, 0.05, safeStones * 0.7]} />
+            <mesh position={[safePosition[0], safePosition[1] - 0.1, safePosition[2] + (stoneCount * 0.7) / 2]}>
+                <boxGeometry args={[0.1, 0.05, stoneCount * 0.7]} />
                 <meshStandardMaterial color="#d1d5db" transparent opacity={0.5} />
             </mesh>
         </group>

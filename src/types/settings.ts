@@ -6,8 +6,16 @@ export interface PVESettings {
     customPiles?: number[]
 }
 
+export interface PVPSettings {
+    player1Name: string
+    player2Name: string
+    customPiles?: number[]
+}
+
+
 export interface GameSettings {
-    pve: PVESettings
+    pve: PVESettings,
+    pvp: PVPSettings,
     theme: "light" | "dark"
     soundEnabled: boolean
 }

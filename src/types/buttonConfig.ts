@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react";
 
-
 export interface ButtonConfig {
     id: string;
     text: string;

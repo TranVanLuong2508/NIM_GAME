@@ -2,7 +2,7 @@ import React from 'react'
 import { OrbitControls, Sky, Environment } from "@react-three/drei"
 import Pile from '@/3d/models/Pile'
 import type { StoneSelection, GameSettings } from '@/types/settings'
-import type { GameState } from '@/types/game'
+import type { GameState } from '@/types/gameState'
 
 interface GameScenceProps {
     piles: number[]

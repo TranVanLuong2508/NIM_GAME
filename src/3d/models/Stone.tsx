@@ -7,6 +7,16 @@ import StoneColor from '@/constants/StoneColor'
 const Stone = ({ position, onClick, isSelected, isRemoving, isClickable = true }: StoneProps) => {
     const meshRef = useRef<THREE.Mesh>(null)
     const [isHover, setIsHover] = useState(false)
+
+    const handlePointerOver = () => {
+        if (isClickable) {
+            setIsHover(true)
+        }
+    }
+
+    const handlePointerGoOut = () => {
+        setIsHover(false)
+    }
     useFrame((state) => {
         if (meshRef.current) {
             if (isRemoving) {
@@ -29,14 +39,16 @@ const Stone = ({ position, onClick, isSelected, isRemoving, isClickable = true }
             }
         }
     })
+
+    console.log('check render')
     return (
         <mesh
             ref={meshRef}
             position={position}
             castShadow
             receiveShadow
-            onPointerOver={() => isClickable && setIsHover(true)}
-            onPointerOut={() => setIsHover(false)}
+            onPointerOver={() => handlePointerOver()}
+            onPointerOut={() => handlePointerGoOut()}
             onClick={() => isClickable ? onClick : undefined}
         >
             <dodecahedronGeometry args={[0.25]} />

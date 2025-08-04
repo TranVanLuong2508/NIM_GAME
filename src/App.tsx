@@ -4,6 +4,7 @@ import NimGame3D from "@/3d/scenes/NimGame3D";
 
 
 const App = () => {
+  console.log('check gaio dienej')
   return (
     <>
       <Routes>

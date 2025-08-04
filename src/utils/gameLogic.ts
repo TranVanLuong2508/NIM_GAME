@@ -12,7 +12,7 @@ export const calculateStonePositions = (
     }
 
     const positions: [number, number, number][] = []
-    const stoneSpacing = 0.7 // Khoảng cách giữa các đá
+    const stoneSpacing = 0.7 // Khoảng cách giữa các khối đá
 
     for (let i = 0; i < stoneCount; i++) {
         const x = basePosition[0]
@@ -23,4 +23,8 @@ export const calculateStonePositions = (
     }
 
     return positions
+}
+
+export const calculateNimSum = (piles: number[]) => {
+    return piles.reduce((sum, pile) => sum ^ pile)
 }
