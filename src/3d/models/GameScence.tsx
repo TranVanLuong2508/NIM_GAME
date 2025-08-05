@@ -3,23 +3,24 @@ import { OrbitControls, Sky, Environment } from "@react-three/drei"
 import Pile from '@/3d/models/Pile'
 import type { StoneSelection, GameSettings } from '@/types/settings'
 import type { GameState } from '@/types/gameState'
+import TurnIndicators from '@/3d/models/TurnIndicators'
 
 interface GameScenceProps {
     piles: number[]
-    // selectedStones: StoneSelection
-    // onStoneClick: (pileIndex: number, stoneIndex: number) => void
-    // removingStones: StoneSelection
-    // gameState: GameState
-    // settings: GameSettings
+    selectedStones: StoneSelection
+    onStoneClick: (pileIndex: number, stoneIndex: number) => void
+    removingStones: StoneSelection
+    gameState: GameState
+    settings: GameSettings
 }
 
 const GameScence = ({
     piles,
-    // selectedStones,
-    // onStoneClick,
-    // removingStones,
-    // gameState,
-    // settings,
+    selectedStones,
+    onStoneClick,
+    removingStones,
+    gameState,
+    settings,
 }: GameScenceProps) => {
 
     const safePiles = Array.isArray(piles) ? piles : []
@@ -31,7 +32,6 @@ const GameScence = ({
 
         return [startX + index * spacing, 0, -2] // Z = -2 để bắt đầu từ phía trước
     }
-
     return (
         <>
             <Sky sunPosition={[100, 20, 100]} />
@@ -49,17 +49,19 @@ const GameScence = ({
                 shadow-camera-top={15}
                 shadow-camera-bottom={-15}
             />
+            {/* Bright ground - mở rộng để chứa các hàng dọc */}
             <mesh rotation={[- Math.PI / 2, 0, 0]} receiveShadow>
                 <planeGeometry args={[15, 20]} />
                 <meshStandardMaterial color="#f8fafc" roughness={0.8} />
             </mesh >
 
+            {/* Grid lines để phân biệt các pile - hàng dọc */}
             {safePiles.map((stones, index) => {
                 const position = getPilePosition(index)
-                const maxStones = Math.max(...safePiles, 5)
+                const maxStones = Math.max(...safePiles, 5) // Tối thiểu 5 để có đủ không gian
                 return (
                     <mesh
-                        key={`$grid-${index}`}
+                        key={`grid-${index}`}
                         position={[position[0], -0.49, position[2] + (maxStones * 0.7) / 2]}
                         rotation={[-Math.PI / 2, 0, 0]}
                     >
@@ -68,6 +70,10 @@ const GameScence = ({
                     </mesh>
                 )
             })}
+
+            <TurnIndicators gameState={gameState} settings={settings} />
+
+            {/* Piles */}
             {safePiles.map((stones, index) => {
                 const position = getPilePosition(index)
                 const stones_safe = Math.max(0, stones || 0)
@@ -78,9 +84,9 @@ const GameScence = ({
                         stones={stones_safe}
                         pileIndex={index}
                         position={position}
-                    // selectedStones={selectedStones?.[index] || []}
-                    // onStoneClick={onStoneClick}
-                    // removingStones={removingStones?.[index] || []}
+                        selectedStones={selectedStones?.[index] || []}
+                        onStoneClick={onStoneClick}
+                        removingStones={removingStones?.[index] || []}
                     />
                 )
             })}

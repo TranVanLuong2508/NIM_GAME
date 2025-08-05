@@ -7,14 +7,25 @@ import Particle from '@/motion/particle'
 import gameButtons from '@/containers/GameButton/GameButon'
 import buttonVariants from '@/motion/variants/buttonVariants'
 import Startfield from '@/motion/Starfield'
+// import SavedGames from '@/containers/Home/Modals/SavedGame'
+import type { GameMode } from '@/types/commonType'
+import type { SavedGame } from '@/types/savedGame'
+import SavedGames2 from '@/containers/Home/Modals/SavedGame2'
 
 
-const HomePage = () => {
+interface HomePageProps {
+    onSelectMode: (mode: GameMode) => void
+    mode: GameMode
+    onStartGame: () => void
+    onLoadGame: (savedGame: SavedGame) => void
+}
+const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame }: HomePageProps) => {
 
 
     const [hoveredButton, setHoveredButton] = useState<string | null>(null)
     const [isShowModalPveSetting, setIsShowModalPveSetting] = useState<boolean>(false)
     const [isShowModalPVPSetting, setIsShowModalPVPSetting] = useState<boolean>(false)
+    const [isShowModalSavedGame, setIsShowModalSavedGame] = useState<boolean>(false)
 
     const setCloseModalPVESetting = (): void => {
         setIsShowModalPveSetting(false)
@@ -22,10 +33,10 @@ const HomePage = () => {
     const setCloseModalPVPSetting = (): void => {
         setIsShowModalPVPSetting(false)
     }
-
-    const handleStartPVEGame = (): void => {
-        console.log('start PVE game')
+    const setCloseModalSavedGame = (): void => {
+        setIsShowModalSavedGame(false)
     }
+
 
     const setShowModalPVE = (): void => {
         setIsShowModalPveSetting(true)
@@ -33,6 +44,19 @@ const HomePage = () => {
     const setShowModalPVP = (): void => {
         setIsShowModalPVPSetting(true)
     }
+    const setShowSavedGame = (): void => {
+        setIsShowModalSavedGame(true)
+    }
+
+    // const handleDeleteGame = (gameId: string) => {
+    //     console.log("Deleting game:", gameId)
+    //     // Logic to delete the game
+    // }
+
+    // const handleExportGame = (gameId: string) => {
+    //     console.log("Exporting game:", gameId)
+    //     // Logic to export the game
+    // }
 
     // const handleClickButton = (typeButton: string): void => {
     //     console.log("click Button", typeButton)
@@ -99,7 +123,11 @@ const HomePage = () => {
                                             
                                         `
                                     }
-                                    onClick={() => { setShowModalPVE() }}
+                                    onClick={() => {
+                                        console.log('check buttion')
+                                        onSelectMode("PVE")
+                                        setShowModalPVE()
+                                    }}
 
                                 >
                                     {/* Màu phủ lên trên button */}
@@ -168,7 +196,10 @@ const HomePage = () => {
                                             
                                         `
                                     }
-                                    onClick={() => { setShowModalPVP() }}
+                                    onClick={() => {
+                                        onSelectMode("PVP")
+                                        setShowModalPVP()
+                                    }}
                                 >
                                     {/* Màu phủ lên trên button */}
                                     <motion.div
@@ -236,7 +267,7 @@ const HomePage = () => {
                                             
                                         `
                                     }
-
+                                    onClick={() => { setShowSavedGame() }}
                                 >
                                     {/* Màu phủ lên trên button */}
                                     <motion.div
@@ -295,12 +326,17 @@ const HomePage = () => {
             <PVEGameSetting
                 isOpen={isShowModalPveSetting}
                 onClose={setCloseModalPVESetting}
-                onStartGame={handleStartPVEGame}
+                onStartGame={onStartGame}
             />
             <PVPGameSetting
                 isOpen={isShowModalPVPSetting}
                 onClose={setCloseModalPVPSetting}
-                onStartGame={handleStartPVEGame}
+                onStartGame={onStartGame}
+            />
+            <SavedGames2
+                isOpen={isShowModalSavedGame}
+                onClose={setCloseModalSavedGame}
+                onLoadGame={onLoadGame}
             />
         </>
     )

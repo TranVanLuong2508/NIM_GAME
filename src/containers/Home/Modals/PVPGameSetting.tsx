@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGr
 import { ArrowLeft, Settings, ScrollText } from "lucide-react"
 
 import type { PVESettingProps } from '@/types/PropTypes/PVESettingProps'
-import type { GameSettings } from '@/types/PVESettingInterface'
 import modalVariants from '@/motion/variants/ModalVariants'
 import tabVariants from '@/motion/variants/TabVariants'
 import GameRule from '@/constants/GameRuleContent'
@@ -16,11 +15,11 @@ import GameRule from '@/constants/GameRuleContent'
 
 const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
 
-    const [settings, setSettings] = useState<GameSettings>({
-        difficulty: "easy",
-        playerFirst: true,
-        customPiles: "3,5,7,4"
-    })
+    // const [settings, setSettings] = useState<GameSettings>({
+    //     difficulty: "easy",
+    //     playerFirst: true,
+    //     customPiles: "3,5,7,4"
+    // })
 
     const [activeTab, seActiveTab] = useState<string>("customize")
 
@@ -30,7 +29,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
     }
 
     const handleStartGame = (): void => {
-        onStartGame(settings)
+        onStartGame()
     }
 
     return (
@@ -39,6 +38,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
                 <motion.div
                     className='fixed inset-0 bg-black/60 backdrop-blur-sm 
                     items-center justify-center flex p-4 z-50 '
+                    onClick={onClose}
                 >
                     <motion.div
                         className='modal-content w-full max-w-md bg-white/10 
@@ -47,13 +47,14 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <div className="modal-header flex items-center justify-between p-6 border-b border-white/10">
                             <div className='flex  items-center space-x-3'>
                                 <Button
                                     variant={"ghost"}
                                     size={"sm"}
-                                    className='text-white/70 hover:text-white hover:bg-white/10 p-2'
+                                    className='text-white/70 hover:text-white hover:bg-white/10 p-2 cursor-pointer'
                                     onClick={() => { coloseModal() }}
                                 >
                                     <ArrowLeft
