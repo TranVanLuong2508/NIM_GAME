@@ -1,25 +1,26 @@
 interface LevelStruture {
     title: string
     numberStone: number
+    value: string
 }
 
-export const Level: Record<"easy" | "normal" | "hard" | "expert", LevelStruture> = {
+export const Level: Record<"easy" | "medium" | "hard", LevelStruture> = {
     easy: {
         title: "Dễ",
-        numberStone: 3
+        numberStone: 3,
+        value: "easy"
     },
-    normal: {
+    medium: {
         title: "Trung bình",
-        numberStone: 4
+        numberStone: 3,
+        value: "medium"
     },
     hard: {
         title: "Khó",
-        numberStone: 5
+        numberStone: 3,
+        value: "hard"
     },
-    expert: {
-        title: "Chuyên gia",
-        numberStone: 7
-    },
+
 }
 
-export default { Level }
+export default Level 

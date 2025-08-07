@@ -41,10 +41,13 @@ const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, remov
                     <Stone
                         key={`Pile: ${pileIndex}-${index}`}
                         position={pos}
-                        onClick={() => { onStoneClick(pileIndex, stoneNumber) }}
+                        onClick={() => {
+                            onStoneClick(pileIndex, stoneNumber)
+                        }}
                         isSelected={safeSelectedStones.includes(index)}
                         isRemoving={safeRemovingStones.includes(index)}
                         isClickable={isClickable}
+
                     />
                 )
             })}

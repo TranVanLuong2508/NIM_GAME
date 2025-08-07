@@ -11,11 +11,13 @@ const Stone = ({ position, onClick, isSelected, isRemoving, isClickable = true }
     const handlePointerOver = () => {
         if (isClickable) {
             setIsHover(true)
+            document.body.style.cursor = 'pointer'
         }
     }
 
     const handlePointerGoOut = () => {
         setIsHover(false)
+        document.body.style.cursor = 'default'
     }
     useFrame((state) => {
         if (meshRef.current) {
@@ -40,7 +42,6 @@ const Stone = ({ position, onClick, isSelected, isRemoving, isClickable = true }
         }
     })
 
-    console.log('check render')
     return (
         <mesh
             ref={meshRef}
@@ -49,7 +50,11 @@ const Stone = ({ position, onClick, isSelected, isRemoving, isClickable = true }
             receiveShadow
             onPointerOver={() => handlePointerOver()}
             onPointerOut={() => handlePointerGoOut()}
-            onClick={() => isClickable ? onClick : undefined}
+            onClick={() => {
+                if (isClickable && onClick) {
+                    onClick()
+                }
+            }}
         >
             <dodecahedronGeometry args={[0.25]} />
             <meshStandardMaterial

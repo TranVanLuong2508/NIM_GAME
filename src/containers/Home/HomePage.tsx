@@ -327,11 +327,13 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame }: HomePageProps
                 isOpen={isShowModalPveSetting}
                 onClose={setCloseModalPVESetting}
                 onStartGame={onStartGame}
+                mode={mode}
             />
             <PVPGameSetting
                 isOpen={isShowModalPVPSetting}
                 onClose={setCloseModalPVPSetting}
                 onStartGame={onStartGame}
+                mode={mode}
             />
             <SavedGames2
                 isOpen={isShowModalSavedGame}
