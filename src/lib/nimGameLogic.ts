@@ -1,47 +1,96 @@
 import type { Move } from "@/types/move";
 import type { Difficulty } from "@/types/commonType";
+// import Level from "@/constants/Level";
+import randomNumberInRange from "@/utils/random";
 
 export const DEFAULT_PILES = [3, 5, 7, 4]
 
 export const calculateNimSum = (piles: number[]): number => {
-    return piles.reduce((sum, pile) => sum ^ pile, 0)
+    return piles.reduce((nimSum, pile) => nimSum ^ pile, 0)
 }
 
-export const getOptimalMove = (piles: number[], difficulty: Difficulty = "hard"): Move => {
+// const getOptimalMoveChance = (level: Difficulty) => {
+//     switch (level) {
+//         case Level.easy.value:
+//             return 0.2
+//         case Level.medium.value:
+//             return 0.6
+//         case Level.hard.value:
+//             return 1
+//         default:
+//             return 0;
+//     }
+// }
+
+const optimalMoveChances = {
+    easy: 0.2,
+    medium: 0.6,
+    hard: 1
+}
+
+const getOptimalMoveChance = (level: Difficulty) => {
+    return optimalMoveChances[level] ?? 0
+}
+
+const shouldUseRandomMove = (level: Difficulty) => {
+    const perCentOptimalMove = getOptimalMoveChance(level)
+    if (Math.random() > perCentOptimalMove) {
+        return true
+    } else {
+        return false
+    }
+}
+
+export const getOptimalMove = (piles: number[], difficulty: Difficulty = "easy"): Move => {
     const nimSum = calculateNimSum(piles)
-
-    // Easy: 70% random moves
-    if (difficulty === "easy" && Math.random() < 0.7) {
-        return getRandomMove(piles)
-    }
-
-    // Medium: 40% random moves
-    if (difficulty === "medium" && Math.random() < 0.4) {
-        return getRandomMove(piles)
-    }
-
-    // Optimal strategy
+    const availablePiles = piles
+        .map((pile, index) => pile !== 0 ? index : -1)
+        .filter((item) => item !== -1)
+    //losing state
     if (nimSum === 0) {
+        console.log('nimsum == 0: nimSUm ==0 && Random Move ==>', piles)
         return getRandomMove(piles)
-    }
+    } else {
+        //winning state
+        const shouldRandomMove = shouldUseRandomMove(difficulty)
 
-    for (let i = 0; i < piles.length; i++) {
-        const targetSize = piles[i] ^ nimSum
-        if (targetSize < piles[i]) {
+        if (shouldRandomMove === true) {
+            console.log('nimsum !== 0 && shouldRandomMove ==true: Random Move ==>', piles)
+            return getRandomMove(piles)
+
+        } else {
+
+            const optimalPiles = availablePiles.filter((item) => {
+                const stonePerPile = piles[item]
+                const targetSize = stonePerPile ^ nimSum
+                if (targetSize < stonePerPile) {
+                    return true
+                } else {
+                    return false
+                }
+            })
+
+            if (optimalPiles.length === 0) {
+                console.warn("Không tìm thấy pile tối ưu")
+                return getRandomMove(piles)
+            }
+
+            const selectedPile = optimalPiles[randomNumberInRange(0, optimalPiles.length - 1)]
+            const amountToMove = piles[selectedPile] - (piles[selectedPile] ^ nimSum)
+            console.log('nimsum !== 0 && shouldRandomMove ==false: optimal Move ==>', piles)
+
             return {
                 player: "computer",
-                pileIndex: i,
-                amount: piles[i] - targetSize,
+                pileIndex: selectedPile,
+                amount: amountToMove,
                 timestamp: new Date(),
             }
         }
     }
-
-    return getRandomMove(piles)
 }
 
 const getRandomMove = (piles: number[]): Move => {
-    const availablePiles = piles.map((pile, index) => ({ pile, index })).filter(({ pile }) => pile > 0)
+    const availablePiles = piles.map((stoneCount, index) => ({ stoneCount, index })).filter(({ stoneCount }) => stoneCount > 0)
 
     if (availablePiles.length === 0) {
         return {
@@ -53,12 +102,13 @@ const getRandomMove = (piles: number[]): Move => {
     }
 
     const randomPile = availablePiles[Math.floor(Math.random() * availablePiles.length)]
-    const amount = Math.floor(Math.random() * randomPile.pile) + 1
+    // const amountToMove = Math.floor(Math.random() * randomPile.stoneCount) + 1
+    const amountToMove = randomNumberInRange(1, randomPile.stoneCount)
 
     return {
         player: "computer",
         pileIndex: randomPile.index,
-        amount,
+        amount: amountToMove,
         timestamp: new Date(),
     }
 }

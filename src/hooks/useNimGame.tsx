@@ -73,7 +73,7 @@ export const useNimGame = (mode: GameMode, settings: GameSettings) => {
     const handleStoneClick = useCallback(
         (pileIndex: number, stoneNumber: number) => {
             if (gameState.isAnimating || gameState.gameStatus !== "playing") return
-            if (gameState.mode === "PVE" && gameState.currentPlayer === "computer") return
+            if (gameState.mode === "PVE" && gameState.currentPlayer === "computer") return // can't click on computer turn 
 
             // stoneNumber là số lượng stones sẽ lấy (từ 1 đến số stones trong pile)
             const amount = Math.min(stoneNumber, gameState.piles[pileIndex])

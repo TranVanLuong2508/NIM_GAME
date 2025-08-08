@@ -3,7 +3,6 @@ import { motion } from "motion/react"
 import { Button } from '@/components/ui/button'
 import PVEGameSetting from '@/containers/Home/Modals/PVEGameSetting'
 import PVPGameSetting from '@/containers/Home/Modals/PVPGameSetting'
-import Particle from '@/motion/particle'
 import gameButtons from '@/containers/GameButton/GameButon'
 import buttonVariants from '@/motion/variants/buttonVariants'
 import Startfield from '@/motion/Starfield'
@@ -48,21 +47,6 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame }: HomePageProps
         setIsShowModalSavedGame(true)
     }
 
-    // const handleDeleteGame = (gameId: string) => {
-    //     console.log("Deleting game:", gameId)
-    //     // Logic to delete the game
-    // }
-
-    // const handleExportGame = (gameId: string) => {
-    //     console.log("Exporting game:", gameId)
-    //     // Logic to export the game
-    // }
-
-    // const handleClickButton = (typeButton: string): void => {
-    //     console.log("click Button", typeButton)
-    //     if (typeButton === "") return
-    // }
-
     return (
         <>
 
@@ -73,7 +57,6 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame }: HomePageProps
 
                 <div className="overlay absolute inset-0 bg-black/30 "></div>
                 <div className="particle-floating">
-                    <Particle />
                 </div>
                 <div className="main-container space-y-12 relative z-10 text-center px-6 ">
                     <motion.div

@@ -1,7 +1,8 @@
+import type { Difficulty } from "@/types/commonType"
 interface LevelStruture {
     title: string
     numberStone: number
-    value: string
+    value: Difficulty
 }
 
 export const Level: Record<"easy" | "medium" | "hard", LevelStruture> = {

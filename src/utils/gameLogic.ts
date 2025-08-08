@@ -24,7 +24,3 @@ export const calculateStonePositions = (
 
     return positions
 }
-
-export const calculateNimSum = (piles: number[]) => {
-    return piles.reduce((sum, pile) => sum ^ pile)
-}

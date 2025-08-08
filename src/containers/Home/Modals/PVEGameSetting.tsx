@@ -13,11 +13,12 @@ import { useGameSettings } from '@/hooks/useGameSettings'
 import type { GameSettings } from '@/types/settings'
 import type { PVESettingProps } from '@/types/PropTypes/PVESettingProps'
 import Level from '@/constants/Level'
+import type { Difficulty } from '@/types/commonType'
 
 
 
 
-const PVEGameSetting = ({ isOpen, onClose, onStartGame, mode }: PVESettingProps) => {
+const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, mode }: PVESettingProps) => {
 
     const { settings, updatePVESettings, updatePVPSettings, updateGeneralSettings } = useGameSettings()
 
@@ -140,7 +141,7 @@ const PVEGameSetting = ({ isOpen, onClose, onStartGame, mode }: PVESettingProps)
                                                 <Label className='text-white/80 text-sm font-medium'>Độ khó:</Label>
                                                 <Select
                                                     value={settings.pve.difficulty}
-                                                    onValueChange={(value: "easy" | "medium" | "hard") => { updatePVESettings({ difficulty: value }) }}
+                                                    onValueChange={(value: Difficulty) => { updatePVESettings({ difficulty: value }) }}
                                                 >
                                                     <SelectTrigger
                                                         className='bg-white/10 border-white/20 text-white hover:bg-white/15 focus:ring-purple-400/50 cursor-pointer w-[130px]'
@@ -229,5 +230,5 @@ const PVEGameSetting = ({ isOpen, onClose, onStartGame, mode }: PVESettingProps)
             )}
         </AnimatePresence>
     )
-}
+})
 export default PVEGameSetting
