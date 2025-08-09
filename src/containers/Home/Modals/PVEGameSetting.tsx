@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from '@/components/ui/button'
-import { Input } from "@/components/ui/input"
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select"
@@ -10,55 +9,48 @@ import modalVariants from '@/motion/variants/ModalVariants'
 import tabVariants from '@/motion/variants/TabVariants'
 import GameRule from '@/constants/GameRuleContent'
 import { useGameSettings } from '@/hooks/useGameSettings'
-import type { GameSettings } from '@/types/settings'
 import type { PVESettingProps } from '@/types/PropTypes/PVESettingProps'
 import Level from '@/constants/Level'
 import type { Difficulty } from '@/types/commonType'
+import { getRandomPiles } from '@/lib/random'
 
 
 
 
-const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, mode }: PVESettingProps) => {
-
-    const { settings, updatePVESettings, updatePVPSettings, updateGeneralSettings } = useGameSettings()
-
-    const [customPiles, setCustomPiles] = useState<string>(
-        settings[mode.toLowerCase() as keyof GameSettings].customPiles?.join(",") || "3,5,7,4",
-    )
+const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, updatePVESettings, settings }: PVESettingProps) => {
 
 
-    // const [settings, setSettings] = useState<GameSettings>({
-    //     difficulty: "easy",
-    //     playerFirst: true,
-    //     customPiles: "3,5,7,4"
-    // })
-    const handleCustomPilesChange = (value: string) => {
-        setCustomPiles(value)
-        try {
-            const piles = value
-                .split(",")
-                .map((n) => Number.parseInt(n.trim()))
-                .filter((n) => !isNaN(n) && n > 0)
+    // const [customPiles, setCustomPiles] = useState<string>(
+    //     settings[mode.toLowerCase() as keyof GameSettings].customPiles?.join(",") || "3,5,7,4",
+    // )
 
-            if (piles.length > 0 && piles.length <= 6) {
-                // Limit to 6 piles max
-                if (mode === "PVE") {
-                    updatePVESettings({ customPiles: piles })
-                } else {
-                    updatePVPSettings({ customPiles: piles })
-                }
-            } else if (value.trim() === "") {
-                // Reset to default if empty
-                if (mode === "PVE") {
-                    updatePVESettings({ customPiles: undefined })
-                } else {
-                    updatePVPSettings({ customPiles: undefined })
-                }
-            }
-        } catch {
-            // Invalid input, ignore
-        }
-    }
+    // const handleCustomPilesChange = (value: string) => {
+    //     setCustomPiles(value)
+    //     try {
+    //         const piles = value
+    //             .split(",")
+    //             .map((n) => Number.parseInt(n.trim()))
+    //             .filter((n) => !isNaN(n) && n > 0)
+
+    //         if (piles.length > 0 && piles.length <= 6) {
+    //             // Limit to 6 piles max
+    //             if (mode === "PVE") {
+    //                 updatePVESettings({ customPiles: piles })
+    //             } else {
+    //                 updatePVPSettings({ customPiles: piles })
+    //             }
+    //         } else if (value.trim() === "") {
+    //             // Reset to default if empty
+    //             if (mode === "PVE") {
+    //                 updatePVESettings({ customPiles: undefined })
+    //             } else {
+    //                 updatePVPSettings({ customPiles: undefined })
+    //             }
+    //         }
+    //     } catch {
+    //         // Invalid input, ignore
+    //     }
+    // }
 
     const [activeTab, seActiveTab] = useState<string>("customize")
 
@@ -71,7 +63,13 @@ const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, mode }: PVESe
         onStartGame()
     }
 
-    console.log('check settings', settings)
+    const handleChangeLevel = (level: Difficulty) => {
+        updatePVESettings({ difficulty: level })
+        const newRandomPile = getRandomPiles(level)
+        updatePVESettings({ randomPiles: newRandomPile })
+    }
+
+    console.log('pve settings', settings)
 
     return (
         <AnimatePresence>
@@ -141,7 +139,7 @@ const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, mode }: PVESe
                                                 <Label className='text-white/80 text-sm font-medium'>Độ khó:</Label>
                                                 <Select
                                                     value={settings.pve.difficulty}
-                                                    onValueChange={(value: Difficulty) => { updatePVESettings({ difficulty: value }) }}
+                                                    onValueChange={(value: Difficulty) => { handleChangeLevel(value) }}
                                                 >
                                                     <SelectTrigger
                                                         className='bg-white/10 border-white/20 text-white hover:bg-white/15 focus:ring-purple-400/50 cursor-pointer w-[130px]'
@@ -168,7 +166,7 @@ const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, mode }: PVESe
                                                     onCheckedChange={(checked) => { updatePVESettings({ playerGoesFirst: checked }) }}
                                                 ></Switch>
                                             </div>
-                                            <div className="custom-piles-container space-y-3">
+                                            {/* <div className="custom-piles-container space-y-3">
                                                 <Label className="text-white/80 text-sm font-medium">Tùy chỉnh số lượng đá mỗi đống</Label>
                                                 <Input
                                                     className='bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-purple-400/50 focus:border-purple-400/50'
@@ -179,7 +177,7 @@ const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, mode }: PVESe
                                                 />
 
                                                 <p className='text-xs text-white/50'>Nhập kích thước các đống cách nhau bằng dấu phẩy từ 1-6. Mặc định là 3,5,7,4</p>
-                                            </div>
+                                            </div> */}
                                         </motion.div>
                                     )}
 

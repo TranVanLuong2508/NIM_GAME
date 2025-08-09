@@ -12,6 +12,7 @@ interface GameScenceProps {
     removingStones: StoneSelection
     gameState: GameState
     settings: GameSettings
+    resetGame: () => void
 }
 
 const GameScence = ({
@@ -50,8 +51,8 @@ const GameScence = ({
                 shadow-camera-bottom={-15}
             />
             {/* Bright ground - mở rộng để chứa các hàng dọc */}
-            <mesh rotation={[- Math.PI / 2, 0, 0]} receiveShadow>
-                <planeGeometry args={[15, 20]} />
+            <mesh rotation={[- Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow >
+                <planeGeometry args={[25, 30]} />
                 <meshStandardMaterial color="#f8fafc" roughness={0.8} />
             </mesh >
 

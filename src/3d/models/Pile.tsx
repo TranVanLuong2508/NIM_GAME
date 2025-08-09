@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from "@react-three/drei"
 import Stone from '@/3d/models/Stone'
 import type { PileProps } from '@/types/PropTypes/PileProps'
-import { calculateStonePositions } from '@/utils/gameLogic'
+import { calculateStonePositions } from '@/lib/nimGameLogic'
 
 const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, removingStones }: PileProps) => {
     const stoneCount = Math.max(0, stones || 0)

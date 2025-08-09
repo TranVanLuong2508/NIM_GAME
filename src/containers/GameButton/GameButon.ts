@@ -1,11 +1,11 @@
-import { Gamepad2, Users, Save } from "lucide-react"
+import { BotMessageSquare, Users, Save } from "lucide-react"
 import type { GameButtons } from "@/types/gameButtons"
 
 const gameButtons: GameButtons = {
     PVEButton: {
         id: "PVP",
-        text: "Chơi với máy",
-        icon: Gamepad2,
+        text: "Người với Máy",
+        icon: BotMessageSquare,
         gradient: "from-purple-400/30 via-pink-300/25 to-purple-300/30",
         hoverGradient: "from-purple-300/40 via-pink-200/35 to-purple-200/40",
         glowColor: "rgba(147, 51, 234, 0.2)",
@@ -14,7 +14,7 @@ const gameButtons: GameButtons = {
 
     PVPButton: {
         id: "PVE",
-        text: "Chơi với người",
+        text: "Người với Người",
         icon: Users,
         gradient: "from-blue-400/30 via-cyan-300/25 to-blue-300/30",
         hoverGradient: "from-blue-300/40 via-cyan-200/35 to-blue-200/40",

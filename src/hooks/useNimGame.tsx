@@ -1,4 +1,5 @@
 import { DEFAULT_PILES, getOptimalMove, isGameOver } from "@/lib/nimGameLogic";
+import { getRandomPiles } from "@/lib/random";
 import { saveGame } from "@/lib/storage";
 import type { GameMode } from "@/types/commonType";
 import type { GameState } from "@/types/gameState";
@@ -12,8 +13,8 @@ export const useNimGame = (mode: GameMode, settings: GameSettings) => {
     // dùng để lấy các đống đá ban đầu, nếu không có thì dùng mặc định 
     const getInitialPiles = () => {
         if (mode === "PVE") {
-            return settings?.pve?.customPiles && Array.isArray(settings.pve.customPiles)
-                ? [...settings.pve.customPiles]
+            return settings?.pve?.randomPiles && Array.isArray(settings.pve.randomPiles)
+                ? [...settings.pve.randomPiles]
                 : [...DEFAULT_PILES]
         } else {
             return settings?.pvp?.customPiles && Array.isArray(settings.pvp.customPiles)
@@ -117,7 +118,7 @@ export const useNimGame = (mode: GameMode, settings: GameSettings) => {
         setGameState({
             id: crypto.randomUUID(),
             mode,
-            piles: getInitialPiles(),
+            piles: getRandomPiles(settings.pve.difficulty),
             currentPlayer:
                 mode === "PVE" && settings.pve.playerGoesFirst ? "player1" : mode === "PVE" ? "computer" : "player1",
             gameStatus: "playing",

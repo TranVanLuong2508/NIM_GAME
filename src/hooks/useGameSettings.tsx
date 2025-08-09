@@ -25,14 +25,9 @@ export const useGameSettings = () => {
         }))
     }
 
-    const updateGeneralSettings = (updates: Partial<Pick<GameSettings, "theme" | "soundEnabled">>) => {
-        setSettings((prev) => ({ ...prev, ...updates }))
-    }
-
     return {
         settings,
         updatePVESettings,
         updatePVPSettings,
-        updateGeneralSettings,
     }
 }

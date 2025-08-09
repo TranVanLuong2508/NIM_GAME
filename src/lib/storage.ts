@@ -1,5 +1,7 @@
 import type { GameSettings } from "@/types/settings";
 import type { SavedGame } from "@/types/savedGame";
+import { getRandomPiles } from "@/lib/random";
+import Level from "@/constants/Level";
 const STORAGE_KEYS = {
     SETTINGS: "nim-game-settings",
     SAVED_GAMES: "nim-saved-games",
@@ -10,9 +12,9 @@ const STORAGE_KEYS = {
 //set default value for default settings
 export const defaultSettings: GameSettings = {
     pve: {
-        difficulty: "medium",
+        difficulty: "easy",
         playerGoesFirst: true,
-        customPiles: undefined,
+        randomPiles: getRandomPiles(Level.easy.value)
     },
     pvp: {
         player1Name: "Player 1",

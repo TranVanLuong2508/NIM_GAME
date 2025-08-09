@@ -3,7 +3,7 @@ import type { Difficulty } from "@/types/commonType"
 export interface PVESettings {
     difficulty: Difficulty
     playerGoesFirst: boolean
-    customPiles?: number[]
+    randomPiles?: number[]
 }
 
 export interface PVPSettings {

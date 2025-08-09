@@ -1,4 +1,3 @@
-import React from 'react'
 import { Canvas } from "@react-three/fiber"
 
 import GameScence from '@/3d/models/GameScence'
@@ -32,6 +31,8 @@ const NimGame3D = ({ mode, settings, onExitGame, savedGame }: NimGame3DProps) =>
         }
         exportGameToFile(currentSavedGame)
     }
+
+    console.log('check ')
     return (
         <div className="w-full h-screen bg-gradient-to-b from-sky-200 to-blue-100 relative">
             {/* 3D Canvas - điều chỉnh camera cho view hàng dọc */}
@@ -43,6 +44,7 @@ const NimGame3D = ({ mode, settings, onExitGame, savedGame }: NimGame3DProps) =>
                     removingStones={removingStones}
                     gameState={gameState}
                     settings={settings}
+                    resetGame={resetGame}
                 />
             </Canvas>
 

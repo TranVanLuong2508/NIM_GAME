@@ -10,6 +10,7 @@ import Startfield from '@/motion/Starfield'
 import type { GameMode } from '@/types/commonType'
 import type { SavedGame } from '@/types/savedGame'
 import SavedGames2 from '@/containers/Home/Modals/SavedGame2'
+import type { GameSettings } from '@/types/settings'
 
 
 interface HomePageProps {
@@ -17,8 +18,10 @@ interface HomePageProps {
     mode: GameMode
     onStartGame: () => void
     onLoadGame: (savedGame: SavedGame) => void
+    updatePVESettings: (updates: Partial<GameSettings["pve"]>) => void
+    settings: GameSettings
 }
-const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame }: HomePageProps) => {
+const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame, settings, updatePVESettings }: HomePageProps) => {
 
 
     const [hoveredButton, setHoveredButton] = useState<string | null>(null)
@@ -29,20 +32,23 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame }: HomePageProps
     const setCloseModalPVESetting = (): void => {
         setIsShowModalPveSetting(false)
     }
+
     const setCloseModalPVPSetting = (): void => {
         setIsShowModalPVPSetting(false)
     }
+
     const setCloseModalSavedGame = (): void => {
         setIsShowModalSavedGame(false)
     }
 
-
     const setShowModalPVE = (): void => {
         setIsShowModalPveSetting(true)
     }
+
     const setShowModalPVP = (): void => {
         setIsShowModalPVPSetting(true)
     }
+
     const setShowSavedGame = (): void => {
         setIsShowModalSavedGame(true)
     }
@@ -209,7 +215,7 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame }: HomePageProps
                                             animate={hoveredButton === gameButtons.PVPButton.id ? { rotate: 360 } : { rotate: 0 }}
                                             transition={{ duration: 0.6, ease: "easeOut" }}
                                         >
-                                            <gameButtons.PVEButton.icon className='w-5 h-5 drop-shadow-sm' />
+                                            <gameButtons.PVPButton.icon className='w-5 h-5 drop-shadow-sm' />
                                         </motion.div>
                                         <span className='drop-shadow-sm' >{gameButtons.PVPButton.text}</span>
                                     </div>
@@ -277,7 +283,7 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame }: HomePageProps
                                             animate={hoveredButton === gameButtons.SavedGameButton.id ? { rotate: 360 } : { rotate: 0 }}
                                             transition={{ duration: 0.6, ease: "easeOut" }}
                                         >
-                                            <gameButtons.PVEButton.icon className='w-5 h-5 drop-shadow-sm' />
+                                            <gameButtons.SavedGameButton.icon className='w-5 h-5 drop-shadow-sm' />
                                         </motion.div>
                                         <span className='drop-shadow-sm' >{gameButtons.SavedGameButton.text}</span>
                                     </div>
@@ -311,13 +317,15 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame }: HomePageProps
                 onClose={setCloseModalPVESetting}
                 onStartGame={onStartGame}
                 mode={mode}
+                settings={settings}
+                updatePVESettings={updatePVESettings}
             />
-            <PVPGameSetting
+            {/* <PVPGameSetting
                 isOpen={isShowModalPVPSetting}
                 onClose={setCloseModalPVPSetting}
                 onStartGame={onStartGame}
                 mode={mode}
-            />
+            /> */}
             <SavedGames2
                 isOpen={isShowModalSavedGame}
                 onClose={setCloseModalSavedGame}

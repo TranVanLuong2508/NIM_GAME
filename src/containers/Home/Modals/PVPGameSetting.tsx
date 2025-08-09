@@ -13,7 +13,7 @@ import tabVariants from '@/motion/variants/TabVariants'
 import GameRule from '@/constants/GameRuleContent'
 
 
-const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVESettingProps) => {
+const PVPGameSetting = ({ isOpen, onClose, onStartGame }: PVSettingProps) => {
 
     // const [settings, setSettings] = useState<GameSettings>({
     //     difficulty: "easy",

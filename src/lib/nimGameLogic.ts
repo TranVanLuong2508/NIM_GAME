@@ -1,7 +1,7 @@
 import type { Move } from "@/types/move";
 import type { Difficulty } from "@/types/commonType";
 // import Level from "@/constants/Level";
-import randomNumberInRange from "@/utils/random";
+import { randomNumberInRange } from "@/lib/random";
 
 export const DEFAULT_PILES = [3, 5, 7, 4]
 
@@ -121,7 +121,7 @@ export const calculateStonePositions = (
     stoneCount: number,
     basePosition: [number, number, number] = [0, 0, 0],
 ): [number, number, number][] => {
-    // Validate inputs
+
     if (!basePosition || basePosition.length !== 3) {
         basePosition = [0, 0, 0]
     }
@@ -131,9 +131,8 @@ export const calculateStonePositions = (
     }
 
     const positions: [number, number, number][] = []
-    const stoneSpacing = 0.7 // Khoảng cách giữa các đá
+    const stoneSpacing = 0.7 // Khoảng cách giữa các khối đá
 
-    // Sắp xếp stones theo hàng dọc (theo trục Z)
     for (let i = 0; i < stoneCount; i++) {
         const x = basePosition[0]
         const y = basePosition[1] + 0.3 // Đặt đá trên mặt đất
@@ -144,4 +143,3 @@ export const calculateStonePositions = (
 
     return positions
 }
-

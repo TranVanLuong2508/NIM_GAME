@@ -1,19 +1,17 @@
-"use client"
-
 import { useState } from "react"
 import NimGame3D from "@/3d/scenes/NimGame3D"
 import { useGameSettings } from "@/hooks/useGameSettings"
 import type { GameMode } from "@/types/commonType"
 import type { SavedGame } from "@/types/savedGame"
 import HomePage from "@/containers/Home/HomePage"
-
 type AppState = "home" | "game"
 
 export default function Page() {
     const [appState, setAppState] = useState<AppState>("home")
     const [selectedMode, setSelectedMode] = useState<GameMode>("PVE")
+
     const [loadedGame, setLoadedGame] = useState<SavedGame | undefined>()
-    const { settings } = useGameSettings()
+    const { settings, updatePVESettings, updatePVPSettings } = useGameSettings()
 
     const handleSelectMode = (mode: GameMode) => {
         setSelectedMode(mode)
@@ -46,6 +44,7 @@ export default function Page() {
     // const handleOpenSavedGames = () => {
     //     setAppState("saved-games")
     // }
+    console.log('check settings', settings)
 
     switch (appState) {
         case "home":
@@ -55,6 +54,8 @@ export default function Page() {
                     mode={selectedMode}
                     onStartGame={handleStartGame}
                     onLoadGame={handleLoadGame}
+                    updatePVESettings={updatePVESettings}
+                    settings={settings}
                 />
             )
         case "game":
