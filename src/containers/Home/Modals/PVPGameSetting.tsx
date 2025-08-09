@@ -54,9 +54,6 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, setti
     const handleStartGame = (): void => {
         onStartGame()
     }
-
-    console.log('check pvp settings', settings[mode.toLowerCase() as keyof GameSettings].customPiles?.join(","))
-
     return (
         <AnimatePresence>
             {isOpen && (
