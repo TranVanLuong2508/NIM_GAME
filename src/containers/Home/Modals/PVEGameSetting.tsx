@@ -8,7 +8,6 @@ import { ArrowLeft, Settings, ScrollText } from "lucide-react"
 import modalVariants from '@/motion/variants/ModalVariants'
 import tabVariants from '@/motion/variants/TabVariants'
 import GameRule from '@/constants/GameRuleContent'
-import { useGameSettings } from '@/hooks/useGameSettings'
 import type { PVESettingProps } from '@/types/PropTypes/PVESettingProps'
 import Level from '@/constants/Level'
 import type { Difficulty } from '@/types/commonType'
