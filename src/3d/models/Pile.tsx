@@ -10,8 +10,6 @@ const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, remov
     const safeSelectedStones = selectedStones || []
     const safeRemovingStones = removingStones || []
 
-    console.log('check render pile =))')
-
     if (stoneCount === 0) {
         return (
             <group>

@@ -9,7 +9,8 @@ export interface PVESettings {
 export interface PVPSettings {
     player1Name: string
     player2Name: string
-    customPiles?: number[]
+    customPiles?: number[],
+    player1GoesFirst: boolean
 }
 
 

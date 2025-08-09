@@ -117,14 +117,14 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, setti
                                             exit={{ opacity: 0 }}
                                         >
                                             <div className="custom-piles-container space-y-3">
-                                                <Label className="text-white/80 text-sm font-medium">Nhập tên Người chơi 1:</Label>
+                                                <Label className="text-white/80 text-sm font-medium">Nhập tên Người chơi 1 (Player 1):</Label>
                                                 <Input
                                                     className='bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-purple-400/50 focus:border-purple-400/50'
                                                     placeholder={"Player 1"}
                                                     value={settings.pvp.player1Name}
                                                     onChange={(e) => updatePVPSettings({ player1Name: e.target.value })}
                                                 />
-                                                <Label className="text-white/80 text-sm font-medium">Nhập tên người chơi 2:</Label>
+                                                <Label className="text-white/80 text-sm font-medium">Nhập tên người chơi 2 (Player 2):</Label>
                                                 <Input
                                                     className='bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-purple-400/50 focus:border-purple-400/50'
                                                     placeholder='Player 2'
@@ -133,9 +133,13 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, setti
                                                 />
                                             </div>
                                             <div className="first-player-toggle flex items-center justify-between">
-                                                <Label className='text-white/80 text-sm font-medium'>Người chơi đi trước</Label>
+                                                <Label className='text-white/80 text-sm font-medium'>Player 1 đi trước</Label>
                                                 <Switch
                                                     className='data-[state=checked]:bg-purple-500 cursor-pointer'
+                                                    checked={settings.pvp.player1GoesFirst}
+
+                                                    onCheckedChange={(checked) => { updatePVPSettings({ player1GoesFirst: checked }) }}
+
                                                 ></Switch>
                                             </div>
                                             <div className="custom-piles-container space-y-3">

@@ -20,6 +20,7 @@ export const defaultSettings: GameSettings = {
         player1Name: "Player 1",
         player2Name: "Player 2",
         customPiles: getRandomPiles(Level.medium.value),
+        player1GoesFirst: true
     },
 }
 

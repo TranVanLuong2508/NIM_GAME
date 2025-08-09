@@ -1,11 +1,12 @@
 import type { Move } from "@/types/move";
-import type { Difficulty } from "@/types/commonType";
+import type { Difficulty, Player } from "@/types/commonType";
 // import Level from "@/constants/Level";
 import { randomNumberInRange } from "@/lib/random";
 
 export const DEFAULT_PILES = [3, 5, 7, 4]
 
 export const calculateNimSum = (piles: number[]): number => {
+    console.log('check pile before calculate', piles)
     return piles.reduce((nimSum, pile) => nimSum ^ pile, 0)
 }
 
@@ -88,6 +89,53 @@ export const getOptimalMove = (piles: number[], difficulty: Difficulty = "easy")
         }
     }
 }
+
+export const getBestMoveToHint = (piles: number[], player: Player): Move => {
+    console.log('check hint pile and player', piles, player)
+    const nimSum = calculateNimSum(piles)
+    const availablePiles = piles
+        .map((pile, index) => pile !== 0 ? index : -1)
+        .filter((item) => item !== -1)
+    //losing state
+    if (nimSum === 0) {
+        console.log('Random Move ==>', piles)
+        return {
+            ...getRandomMove(piles),
+            player: player
+        }
+    } else {
+        //winning state
+        const optimalPiles = availablePiles.filter((item) => {
+            const stonePerPile = piles[item]
+            const targetSize = stonePerPile ^ nimSum
+            if (targetSize < stonePerPile) {
+                return true
+            } else {
+                return false
+            }
+        })
+
+        if (optimalPiles.length === 0) {
+            console.warn("Không tìm thấy pile tối ưu")
+            return {
+                ...getRandomMove(piles),
+                player: player
+            }
+        }
+
+        const selectedPile = optimalPiles[randomNumberInRange(0, optimalPiles.length - 1)]
+        const amountToMove = piles[selectedPile] - (piles[selectedPile] ^ nimSum)
+        console.log('optimal Move ==>', piles)
+
+        return {
+            player: player,
+            pileIndex: selectedPile,
+            amount: amountToMove,
+            timestamp: new Date(),
+        }
+    }
+}
+
 
 const getRandomMove = (piles: number[]): Move => {
     const availablePiles = piles.map((stoneCount, index) => ({ stoneCount, index })).filter(({ stoneCount }) => stoneCount > 0)
