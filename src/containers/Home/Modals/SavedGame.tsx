@@ -1,42 +1,55 @@
-"use client"
-
+import type React from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, FolderOpen, Trash2, Share } from "lucide-react" // Added Share icon
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { ArrowLeft, Download, Upload, Trash2, Play, FolderOpen } from "lucide-react"
 import modalVariants from "@/motion/variants/ModalVariants"
 import "@/App.css"
+import type { SavedGame } from "@/types/savedGame"
+import { loadSavedGames, deleteSavedGame, exportGameToFile, importGameFromFile } from "@/lib/storage"
 
 interface SavedGamesProps {
     isOpen: boolean
     onClose: () => void
-    onLoadGame: (savedGame: string) => void
-    onDeleteGame: (gameId: string) => void
-    onExportGame: (gameId: string) => void // Added onExportGame prop
+    onLoadGame: (savedGame: SavedGame) => void
 }
 
-interface SavedGame {
-    id: string
-    name: string
-    date: string
-    description: string,
-}
+export default function SavedGames({ isOpen, onClose, onLoadGame }: SavedGamesProps) {
+    const [savedGames, setSavedGames] = useState<SavedGame[]>([])
 
-export default function SavedGames({ isOpen, onClose, onLoadGame, onDeleteGame, onExportGame }: SavedGamesProps) {
-    // Placeholder data for saved games
-    const [savedGames, setSavedGames] = useState<SavedGame[]>([
-        { id: "game-1", name: "Game #1", date: "2025-07-17 10:30 AM", description: "Chơi với máy - Khó" },
-        { id: "game-2", name: "2025-07-16 08:00 PM", date: "2025-07-16 08:00 PM", description: "Chơi với người - Lượt 2" },
-        { id: "game-3", name: "Game #3", date: "2025-07-15 02:15 PM", description: "Chơi với máy - Dễ" },
-        { id: "game-4", name: "Game #3", date: "2025-07-15 02:15 PM", description: "Chơi với máy - Dễ" },
-        { id: "game-5", name: "Game #3", date: "2025-07-15 02:15 PM", description: "Chơi với máy - Dễ" },
-    ])
+    // Load danh sách game ban đầu
+    useEffect(() => {
+        setSavedGames(loadSavedGames().reverse())
+    }, [])
 
-    const handleDelete = (id: string) => {
-        setSavedGames(savedGames.filter((game) => game.id !== id))
-        onDeleteGame(id)
+    const handleDeleteGame = (gameId: string) => {
+        deleteSavedGame(gameId)
+        setSavedGames(prev => prev.filter(game => game.gameState.id !== gameId))
     }
 
+    const handleImportGame = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]
+        if (!file) return
+
+        try {
+            const newSavedGame = await importGameFromFile(file)
+            // Thêm vào đầu mảng, không reset toàn bộ
+            // setSavedGames(prev => [newSavedGame, ...prev])
+            setSavedGames(prev => {
+                if (prev.some(g => g.gameState.id === newSavedGame.gameState.id)) {
+                    return prev // Không thêm nếu đã tồn tại
+                }
+                return [newSavedGame, ...prev]
+            })
+            // Reset input để chọn lại cùng file vẫn nhận
+            event.target.value = ""
+        } catch (error) {
+            console.error("Import game error:", error)
+            alert("Failed to import game file")
+        }
+    }
 
     return (
         <AnimatePresence>
@@ -54,7 +67,7 @@ export default function SavedGames({ isOpen, onClose, onLoadGame, onDeleteGame, 
                         animate="visible"
                         exit="exit"
                         onClick={(e) => e.stopPropagation()}
-                        className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/15 rounded-2xl shadow-2xl overflow-hidden"
+                        className="w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-white/15 rounded-2xl shadow-2xl overflow-hidden relative"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between p-6 border-b border-white/10">
@@ -69,51 +82,92 @@ export default function SavedGames({ isOpen, onClose, onLoadGame, onDeleteGame, 
                                 </Button>
                                 <h2 className="text-xl font-semibold text-white">Game đã lưu</h2>
                             </div>
+                            <div className="flex gap-2">
+                                <Input
+                                    type="file"
+                                    accept=".json"
+                                    onChange={handleImportGame}
+                                    className="hidden"
+                                    id="import-file"
+                                />
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => document.getElementById("import-file")?.click()}
+                                    className="text-white/70 hover:text-white hover:bg-white/10 border border-white/20"
+                                >
+                                    <Upload className="w-4 h-4 mr-2" />
+                                    Tải lên
+                                </Button>
+                            </div>
                         </div>
 
                         {/* Content */}
                         <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto scrollbar-none">
                             {savedGames.length > 0 ? (
-                                savedGames.map((game) => (
+                                savedGames.map((savedGame) => (
                                     <motion.div
-                                        key={game.id}
+                                        key={savedGame.gameState.id}
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, x: -20 }}
                                         className="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-colors duration-200"
                                     >
-                                        <div className="flex-1 space-y-1">
-                                            <h3 className="text-lg font-medium text-white">{game.name}</h3>
-                                            <p className="text-sm text-white/70">{game.date}</p>
-                                            <p className="text-xs text-white/50">{game.description}</p>
+                                        <div className="flex-1 space-y-2">
+                                            <div className="flex items-center gap-2">
+                                                <Badge
+                                                    className={
+                                                        savedGame.gameState.mode === "PVE"
+                                                            ? "bg-blue-500/20 text-blue-300 border-blue-400/30"
+                                                            : "bg-purple-500/20 text-purple-300 border-purple-400/30"
+                                                    }
+                                                >
+                                                    {savedGame.gameState.mode}
+                                                </Badge>
+                                                <Badge
+                                                    className={
+                                                        savedGame.gameState.gameStatus === "playing"
+                                                            ? "bg-yellow-500/20 text-yellow-300 border-yellow-400/30"
+                                                            : savedGame.gameState.gameStatus === "won"
+                                                                ? "bg-green-500/20 text-green-300 border-green-400/30"
+                                                                : "bg-red-500/20 text-red-300 border-red-400/30"
+                                                    }
+                                                >
+                                                    {savedGame.gameState.gameStatus}
+                                                </Badge>
+                                            </div>
+                                            <p className="text-sm text-white/70">
+                                                Piles: {savedGame.gameState.piles.join(", ")} | Moves: {savedGame.gameState.moveHistory.length}
+                                            </p>
+                                            <p className="text-xs text-white/50">
+                                                Last played: {new Date(savedGame.gameState.lastModified).toLocaleString()}
+                                            </p>
                                         </div>
-                                        <div className="flex space-x-2">
+                                        <div className="flex space-x-2 items-center">
                                             <Button
                                                 variant="ghost"
-                                                size="icon"
-                                                onClick={() => onLoadGame(game.id)}
-                                                className="text-white/70 hover:text-white hover:bg-white/10"
+                                                size="sm"
+                                                onClick={() => onLoadGame(savedGame)}
+                                                className="text-white bg-gradient-to-r from-purple-500/80 to-pink-500/80 hover:brightness-110 border-0 shadow-lg hover:shadow-xl cursor-pointer transition duration-300 hover:text-white"
                                             >
-                                                <FolderOpen className="w-5 h-5" />
-                                                <span className="sr-only">Load Game</span>
+                                                <Play className="w-4 h-4" />
+                                                Chơi tiếp
                                             </Button>
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
-                                                onClick={() => onExportGame(game.id)} // Added Export button
+                                                onClick={() => exportGameToFile(savedGame)}
                                                 className="text-white/70 hover:text-white hover:bg-white/10"
                                             >
-                                                <Share className="w-5 h-5" />
-                                                <span className="sr-only">Export Game</span>
+                                                <Download className="w-5 h-5" />
                                             </Button>
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
-                                                onClick={() => handleDelete(game.id)}
+                                                onClick={() => handleDeleteGame(savedGame.gameState.id)}
                                                 className="text-red-400 hover:text-red-300 hover:bg-white/10"
                                             >
                                                 <Trash2 className="w-5 h-5" />
-                                                <span className="sr-only">Delete Game</span>
                                             </Button>
                                         </div>
                                     </motion.div>
@@ -123,7 +177,7 @@ export default function SavedGames({ isOpen, onClose, onLoadGame, onDeleteGame, 
                                     <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <FolderOpen className="w-8 h-8 text-white/60" />
                                     </div>
-                                    <p className="text-white/60">Chưa có game nào được lưu.</p>
+                                    <p className="text-white/60">No saved games found</p>
                                 </div>
                             )}
                         </div>
@@ -139,8 +193,7 @@ export default function SavedGames({ isOpen, onClose, onLoadGame, onDeleteGame, 
                             </Button>
                         </div>
 
-                        {/* Decorative elements */}
-                        {/* <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 opacity-60" /> */}
+                        {/* Decorative gradient */}
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 opacity-60" />
 
                         {/* Floating particles */}

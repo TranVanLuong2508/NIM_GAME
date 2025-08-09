@@ -13,9 +13,6 @@ import GameRule from '@/constants/GameRuleContent'
 import type { PVPSettingProps } from '@/types/PropTypes/PVPSettingsProps'
 import type { GameSettings } from '@/types/settings'
 
-
-
-
 const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, settings, mode }: PVPSettingProps) => {
 
     // const [settings, setSettings] = useState<GameSettings>({
@@ -25,7 +22,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, setti
     // })
 
     const [customPiles, setCustomPiles] = useState<string>(
-        settings["pvp"].customPiles?.join(",") || "3,5,7,4",
+        settings["pvp"].customPiles?.join(",") || "3,5,7,4,2,8",
     )
 
     const handleCustomPilesChange = (value: string) => {
@@ -34,7 +31,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, setti
             const piles = value
                 .split(",")
                 .map((n) => Number.parseInt(n.trim()))
-                .filter((n) => !isNaN(n) && n > 0)
+                .filter((n) => !isNaN(n) && n > 0 && n <= 9)
 
             if (piles.length > 0 && piles.length <= 9) {
                 updatePVPSettings({ customPiles: piles })
@@ -156,7 +153,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, setti
                                                     onChange={(e) => handleCustomPilesChange(e.target.value)}
                                                 />
 
-                                                <p className='text-xs text-white/50'>Nhập kích thước các đống cách nhau bằng dấu phẩy từ, tối đa 9 đống. Mặc định là 6 đống</p>
+                                                <p className='text-xs text-white/50'>Nhập kích thước các đống cách nhau bằng dấu phẩy từ, tối đa 9 đống,mỗi đống có tối đa 9 viên đá. Mặc định là 6 đống</p>
                                             </div>
                                         </motion.div>
                                     )}

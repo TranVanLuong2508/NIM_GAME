@@ -6,10 +6,9 @@ import PVPGameSetting from '@/containers/Home/Modals/PVPGameSetting'
 import gameButtons from '@/containers/GameButton/GameButon'
 import buttonVariants from '@/motion/variants/buttonVariants'
 import Startfield from '@/motion/Starfield'
-// import SavedGames from '@/containers/Home/Modals/SavedGame'
+import SavedGames from '@/containers/Home/Modals/SavedGame'
 import type { GameMode } from '@/types/commonType'
 import type { SavedGame } from '@/types/savedGame'
-import SavedGames2 from '@/containers/Home/Modals/SavedGame2'
 import type { GameSettings } from '@/types/settings'
 
 
@@ -329,7 +328,7 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame, settings, updat
                 settings={settings}
                 updatePVPSettings={updatePVPSettings}
             />
-            <SavedGames2
+            <SavedGames
                 isOpen={isShowModalSavedGame}
                 onClose={setCloseModalSavedGame}
                 onLoadGame={onLoadGame}
