@@ -16,8 +16,6 @@ export interface PVPSettings {
 export interface GameSettings {
     pve: PVESettings,
     pvp: PVPSettings,
-    theme: "light" | "dark"
-    soundEnabled: boolean
 }
 
 export interface StoneSelection {

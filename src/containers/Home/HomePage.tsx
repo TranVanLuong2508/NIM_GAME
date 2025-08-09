@@ -19,9 +19,10 @@ interface HomePageProps {
     onStartGame: () => void
     onLoadGame: (savedGame: SavedGame) => void
     updatePVESettings: (updates: Partial<GameSettings["pve"]>) => void
+    updatePVPSettings: (updates: Partial<GameSettings["pvp"]>) => void
     settings: GameSettings
 }
-const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame, settings, updatePVESettings }: HomePageProps) => {
+const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame, settings, updatePVESettings, updatePVPSettings }: HomePageProps) => {
 
 
     const [hoveredButton, setHoveredButton] = useState<string | null>(null)
@@ -320,12 +321,14 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame, settings, updat
                 settings={settings}
                 updatePVESettings={updatePVESettings}
             />
-            {/* <PVPGameSetting
+            <PVPGameSetting
                 isOpen={isShowModalPVPSetting}
                 onClose={setCloseModalPVPSetting}
                 onStartGame={onStartGame}
                 mode={mode}
-            /> */}
+                settings={settings}
+                updatePVPSettings={updatePVPSettings}
+            />
             <SavedGames2
                 isOpen={isShowModalSavedGame}
                 onClose={setCloseModalSavedGame}

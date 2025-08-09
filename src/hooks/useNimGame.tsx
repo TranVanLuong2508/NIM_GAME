@@ -1,3 +1,4 @@
+import Level from "@/constants/Level";
 import { DEFAULT_PILES, getOptimalMove, isGameOver } from "@/lib/nimGameLogic";
 import { getRandomPiles } from "@/lib/random";
 import { saveGame } from "@/lib/storage";
@@ -19,7 +20,7 @@ export const useNimGame = (mode: GameMode, settings: GameSettings) => {
         } else {
             return settings?.pvp?.customPiles && Array.isArray(settings.pvp.customPiles)
                 ? [...settings.pvp.customPiles]
-                : [...DEFAULT_PILES]
+                : getRandomPiles(Level.medium.value)
         }
     }
 
@@ -118,7 +119,7 @@ export const useNimGame = (mode: GameMode, settings: GameSettings) => {
         setGameState({
             id: crypto.randomUUID(),
             mode,
-            piles: getRandomPiles(settings.pve.difficulty),
+            piles: mode === "PVE" ? getRandomPiles(settings.pve.difficulty) : getInitialPiles(),
             currentPlayer:
                 mode === "PVE" && settings.pve.playerGoesFirst ? "player1" : mode === "PVE" ? "computer" : "player1",
             gameStatus: "playing",

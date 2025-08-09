@@ -19,10 +19,8 @@ export const defaultSettings: GameSettings = {
     pvp: {
         player1Name: "Player 1",
         player2Name: "Player 2",
-        customPiles: undefined,
+        customPiles: getRandomPiles(Level.medium.value),
     },
-    theme: "light",
-    soundEnabled: true,
 }
 
 

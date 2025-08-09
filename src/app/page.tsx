@@ -55,6 +55,7 @@ export default function Page() {
                     onStartGame={handleStartGame}
                     onLoadGame={handleLoadGame}
                     updatePVESettings={updatePVESettings}
+                    updatePVPSettings={updatePVPSettings}
                     settings={settings}
                 />
             )
