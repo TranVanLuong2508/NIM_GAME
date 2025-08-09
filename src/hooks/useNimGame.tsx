@@ -193,23 +193,24 @@ export const useNimGame = (mode: GameMode, settings: GameSettings) => {
         }
     }, [gameState.currentPlayer, gameState.mode, gameState.gameStatus, generateHint]);
 
-    // const makePlayerMoveAutomatically = useCallback(async () => {
+    // const makePlayeerMoveAutomatically = useCallback(async () => {
     //     if (gameState.mode !== "PVE") return; // Chỉ dùng cho PVE
     //     if (gameState.currentPlayer === "player1" && gameState.gameStatus === "playing" && !gameState.isAnimating) {
     //         const move = getOptimalMove(gameState.piles, settings.pve.difficulty);
-    //         await executeMove(move.pileIndex, move.amount, "player1");
+    //         await executMove(move.pileIndex, move.amount, "player1");
     //         setGameState((prev) => ({ ...prev, currentPlayer: "computer" }));
     //     }
     // }, [gameState.piles, gameState.currentPlayer, gameState.gameStatus, gameState.isAnimating, settings.pve.difficulty, executeMove]);
     const makePlayerMoveAutomatically = useCallback(async () => {
+        console.log("makePlayerMoveAutomatically called");
         if (gameState.gameStatus !== "playing" || gameState.isAnimating) return;
 
         if (gameState.mode === "PVE") {
             // Ở PVE, chỉ tự chơi khi là lượt computer
-            if (gameState.currentPlayer === "computer") {
+            if (gameState.currentPlayer === "player1") {
                 const move = getOptimalMove(gameState.piles, settings.pve.difficulty);
-                await executeMove(move.pileIndex, move.amount, "computer");
-                setGameState((prev) => ({ ...prev, currentPlayer: "player1" }));
+                await executeMove(move.pileIndex, move.amount, "player1");
+                setGameState((prev) => ({ ...prev, currentPlayer: "computer" }));
             }
         } else if (gameState.mode === "PVP") {
             // Ở PVP, nếu lượt người chơi mà timeout thì bot tự làm nước đi tối ưu cho người đó
