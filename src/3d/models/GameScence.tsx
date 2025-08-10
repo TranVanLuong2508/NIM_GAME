@@ -26,7 +26,7 @@ const GameScence = ({
     const safePiles = Array.isArray(piles) ? piles : []
 
     const getPilePosition = (index: number): [number, number, number] => {
-        const spacing = 3 // Khoảng cách giữa các pile (cột)
+        const spacing = 2 // Khoảng cách giữa các pile (cột)
         const totalPiles = safePiles.length
         const startX = -((totalPiles - 1) * spacing) / 2 // Căn giữa tất cả các pile
 

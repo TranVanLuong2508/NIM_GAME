@@ -113,7 +113,7 @@ const HomePage = ({ onSelectMode, mode, onStartGame, onLoadGame, settings, updat
                                         `
                                     }
                                     onClick={() => {
-                                        console.log('check buttion')
+                                        // console.log('check buttion')
                                         onSelectMode("PVE")
                                         setShowModalPVE()
                                     }}

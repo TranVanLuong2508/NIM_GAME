@@ -44,7 +44,7 @@ export default function Page() {
     // const handleOpenSavedGames = () => {
     //     setAppState("saved-games")
     // }
-    console.log('check settings', settings)
+    // console.log('check settings', settings)
 
     switch (appState) {
         case "home":

@@ -94,7 +94,7 @@ export default function SavedGames({ isOpen, onClose, onLoadGame }: SavedGamesPr
                                     variant="ghost"
                                     size="sm"
                                     onClick={() => document.getElementById("import-file")?.click()}
-                                    className="text-white/70 hover:text-white hover:bg-white/10 border border-white/20"
+                                    className="text-white/70 hover:text-white hover:bg-white/10 border border-white/20 cursor-pointer"
                                 >
                                     <Upload className="w-4 h-4 mr-2" />
                                     Tải lên
@@ -103,7 +103,7 @@ export default function SavedGames({ isOpen, onClose, onLoadGame }: SavedGamesPr
                         </div>
 
                         {/* Content */}
-                        <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto scrollbar-none">
+                        <div className="p-6 space-y-4 h-[55vh] overflow-y-auto scrollbar-none">
                             {savedGames.length > 0 ? (
                                 savedGames.map((savedGame) => (
                                     <motion.div
@@ -133,14 +133,14 @@ export default function SavedGames({ isOpen, onClose, onLoadGame }: SavedGamesPr
                                                                 : "bg-red-500/20 text-red-300 border-red-400/30"
                                                     }
                                                 >
-                                                    {savedGame.gameState.gameStatus}
+                                                    {savedGame.gameState.gameStatus === "playing" ? "Đang chơi" : "Kết thúc"}
                                                 </Badge>
                                             </div>
                                             <p className="text-sm text-white/70">
-                                                Piles: {savedGame.gameState.piles.join(", ")} | Moves: {savedGame.gameState.moveHistory.length}
+                                                Hiện tại: {savedGame.gameState.piles.join(", ")} | Số lượt đã đi: {savedGame.gameState.moveHistory.length}
                                             </p>
                                             <p className="text-xs text-white/50">
-                                                Last played: {new Date(savedGame.gameState.lastModified).toLocaleString()}
+                                                Lần chơi cuối: {new Date(savedGame.gameState.lastModified).toLocaleString()}
                                             </p>
                                         </div>
                                         <div className="flex space-x-2 items-center">
@@ -157,7 +157,7 @@ export default function SavedGames({ isOpen, onClose, onLoadGame }: SavedGamesPr
                                                 variant="ghost"
                                                 size="icon"
                                                 onClick={() => exportGameToFile(savedGame)}
-                                                className="text-white/70 hover:text-white hover:bg-white/10"
+                                                className="text-white/70 hover:text-white hover:bg-white/10 cursor-pointer"
                                             >
                                                 <Download className="w-5 h-5" />
                                             </Button>
@@ -165,7 +165,7 @@ export default function SavedGames({ isOpen, onClose, onLoadGame }: SavedGamesPr
                                                 variant="ghost"
                                                 size="icon"
                                                 onClick={() => handleDeleteGame(savedGame.gameState.id)}
-                                                className="text-red-400 hover:text-red-300 hover:bg-white/10"
+                                                className="text-red-400 hover:text-red-300 hover:bg-white/10 cursor-pointer"
                                             >
                                                 <Trash2 className="w-5 h-5" />
                                             </Button>
@@ -173,11 +173,11 @@ export default function SavedGames({ isOpen, onClose, onLoadGame }: SavedGamesPr
                                     </motion.div>
                                 ))
                             ) : (
-                                <div className="text-center py-8">
+                                <div className="text-center py-8  flex flex-col items-center justify-center h-full">
                                     <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <FolderOpen className="w-8 h-8 text-white/60" />
                                     </div>
-                                    <p className="text-white/60">No saved games found</p>
+                                    <p className="text-white/60">Chưa có Game nào được lưu</p>
                                 </div>
                             )}
                         </div>
@@ -187,7 +187,7 @@ export default function SavedGames({ isOpen, onClose, onLoadGame }: SavedGamesPr
                             <Button
                                 variant="ghost"
                                 onClick={onClose}
-                                className="text-white/70 hover:text-white hover:bg-white/10 border border-white/20"
+                                className="text-white/70 hover:text-white hover:bg-white/10 border border-white/20 cursor-pointer"
                             >
                                 Đóng
                             </Button>

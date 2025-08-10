@@ -67,7 +67,7 @@ const Stone = ({ position, onClick, isSelected, isRemoving, isClickable = true }
                 if (isClickable && onClick) {
                     onClick()
                 }
-                console.log("chk clckck", event.clientX, event.clientY)
+                // console.log("chk clckck", event.clientX, event.clientY)
             }}
         >
             <dodecahedronGeometry args={[0.25]} />

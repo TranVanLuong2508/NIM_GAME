@@ -20,6 +20,8 @@ const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, remov
                     color="#9ca3af"
                     anchorX="center"
                     anchorY="middle"
+                    rotation={[-Math.PI / 6, 0, 0]}
+
                 >
                     {`Pile ${String.fromCharCode(65 + pileIndex)} (0)`}
                 </Text>
@@ -55,17 +57,20 @@ const Pile = ({ stones, pileIndex, position, selectedStones, onStoneClick, remov
                 color="#1f2937"
                 anchorX="center"
                 anchorY="middle"
+                rotation={[-Math.PI / 6, 0, 0]}
+
             >
                 {`Pile ${String.fromCharCode(65 + pileIndex)}`}
             </Text>
             <Text
-                position={[safePosition[0], safePosition[1] + 0.7, safePosition[2] - 1]}
+                position={[safePosition[0], safePosition[1] + 0.7, safePosition[2] - 0.7]}
                 fontSize={0.3}
                 color="#6b7280"
                 anchorX="center"
                 anchorY="middle"
+                rotation={[-Math.PI / 6, 0, 0]}
             >
-                {`${stoneCount} stones`}
+                {`${stoneCount} viên`}
             </Text>
             <mesh position={[safePosition[0], safePosition[1] - 0.1, safePosition[2] + (stoneCount * 0.7) / 2]}>
                 <boxGeometry args={[0.1, 0.05, stoneCount * 0.7]} />

@@ -24,7 +24,7 @@ const TurnIndicator = ({ position, isActive, color, playerName }: TurnIndicatorP
     const inactiveColor = "#374151"
     return (
         <group>
-            <mesh ref={meshRef} position={position} castShadow>
+            <mesh ref={meshRef} position={position} >
                 <cylinderGeometry args={[0.8, 0.8, 0.3, 32]} />
                 <meshStandardMaterial
                     color={isActive ? activeColor : inactiveColor}
@@ -35,11 +35,14 @@ const TurnIndicator = ({ position, isActive, color, playerName }: TurnIndicatorP
                 />
             </mesh>
             <Text
-                position={[position[0], position[1] - 1.5, position[2]]}
+                position={[position[0], position[1] + 1.2, position[2]]}
                 fontSize={0.4}
-                color={isActive ? "#ffffff" : "#9ca3af"}
+                color={isActive ? (color === "blue" ? "#3b82f6" : "#ef4444") : "#1f2937"}
                 anchorX="center"
                 anchorY="middle"
+                rotation={position[0] > 0 ? [0, -Math.PI / 8, 0] : [0, Math.PI / 8, 0]}
+
+
             >
                 {playerName}
             </Text>

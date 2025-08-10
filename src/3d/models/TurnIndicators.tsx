@@ -7,7 +7,7 @@ const TurnIndicators = ({ gameState, settings }: TurnIndicatorsProps) => {
     const isPlayer2Turn = gameState.currentPlayer === "player2" || gameState.currentPlayer === "computer"
     const getPlayerName = (player: "player1" | "player2") => {
         if (gameState.mode === "PVE") {
-            return player === "player1" ? "You" : "Computer"
+            return player === "player1" ? "Bạn" : "Computer"
         }
         return player === "player1" ? settings.pvp.player1Name : settings.pvp.player2Name
     }
