@@ -4,7 +4,8 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { ArrowLeft, Download, Upload, Trash2, Play, FolderOpen } from "lucide-react"
+import { ArrowLeft, Download, HardDriveUpload, Trash2, Play, FolderOpen } from "lucide-react"
+
 import modalVariants from "@/motion/variants/ModalVariants"
 import "@/App.css"
 import type { SavedGame } from "@/types/savedGame"
@@ -96,7 +97,7 @@ export default function SavedGames({ isOpen, onClose, onLoadGame }: SavedGamesPr
                                     onClick={() => document.getElementById("import-file")?.click()}
                                     className="text-white/70 hover:text-white hover:bg-white/10 border border-white/20 cursor-pointer"
                                 >
-                                    <Upload className="w-4 h-4 mr-2" />
+                                    <HardDriveUpload className="w-4 h-4 mr-2" />
                                     Tải lên
                                 </Button>
                             </div>

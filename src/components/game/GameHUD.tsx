@@ -38,7 +38,7 @@ const GameHud = ({ gameState, onSaveGame, onExportGame, onResetGame, onExitGame,
 
     const totalStones = gameState.piles.reduce((sum, pile) => sum + pile, 0) //tổng số lương đá trong tất cả các pile
     {/* Top Right - Pile Status and Menu */ }
-    const COUNTDOWN_SECONDS = 14
+    const COUNTDOWN_SECONDS = 60
     const [hintString, setHintString] = useState("")
 
     const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);

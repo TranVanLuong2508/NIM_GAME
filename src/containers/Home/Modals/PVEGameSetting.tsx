@@ -16,7 +16,7 @@ import { getRandomPiles } from '@/lib/random'
 
 
 
-const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, updatePVESettings, settings }: PVESettingProps) => {
+const pvp = React.memo(({ isOpen, onClose, onStartGame, updatePVESettings, settings }: PVESettingProps) => {
 
     const [activeTab, seActiveTab] = useState<string>("customize")
 
@@ -170,7 +170,7 @@ const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, updatePVESett
                             <Button className='flex-1 text-white/70 hover:text-white hover:bg-white/10 border border-white/20 cursor-pointer'
                                 onClick={() => { coloseModal() }}
                             >
-                                Cancel
+                                Bỏ qua
                             </Button>
                             <Button
                                 onClick={() => { handleStartGame() }}
@@ -178,7 +178,7 @@ const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, updatePVESett
                                  hover:from-purple-400/80 hover:to-pink-400/80
                                  text-white border-0 shadow-lg hover:shadow-purple-500/25 cursor-pointer'
                             >
-                                Start Game
+                                Bắt đầu chơi
                             </Button>
                         </div>
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 opacity-60" />
@@ -188,4 +188,4 @@ const PVEGameSetting = React.memo(({ isOpen, onClose, onStartGame, updatePVESett
         </AnimatePresence>
     )
 })
-export default PVEGameSetting
+export default pvp

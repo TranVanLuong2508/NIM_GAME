@@ -4,20 +4,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from "@/components/ui/input"
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select"
 import { ArrowLeft, Settings, ScrollText } from "lucide-react"
 
 import modalVariants from '@/motion/variants/ModalVariants'
 import tabVariants from '@/motion/variants/TabVariants'
 import GameRule from '@/constants/GameRuleContent'
 import type { PVPSettingProps } from '@/types/PropTypes/PVPSettingsProps'
-const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, settings, mode }: PVPSettingProps) => {
 
-    // const [settings, setSettings] = useState<GameSettings>({
-    //     difficulty: "easy",
-    //     playerFirst: true,
-    //     customPiles: "3,5,7,4"
-    // })
+const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, settings, mode }: PVPSettingProps) => {
 
     const [customPiles, setCustomPiles] = useState<string>(
         settings["pvp"].customPiles?.join(",") || "3,5,7,4,2,8",
@@ -52,6 +46,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, setti
     const handleStartGame = (): void => {
         onStartGame()
     }
+
     return (
         <AnimatePresence>
             {isOpen && (
@@ -132,18 +127,26 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, setti
                                                     onChange={(e) => updatePVPSettings({ player2Name: e.target.value })}
                                                 />
                                             </div>
-                                            <div className="first-player-toggle flex items-center justify-between">
-                                                <Label className='text-white/80 text-sm font-medium'>Player 1 đi trước</Label>
-                                                <Switch
-                                                    className='data-[state=checked]:bg-purple-500 cursor-pointer'
-                                                    checked={settings.pvp.player1GoesFirst}
-
-                                                    onCheckedChange={(checked) => { updatePVPSettings({ player1GoesFirst: checked }) }}
-
-                                                ></Switch>
+                                            <div className="flex items-center justify-between space-x-6">
+                                                <div className="flex items-center space-x-2 flex-1">
+                                                    <Label className='text-white/80 text-sm font-medium'>Player 1 đi trước</Label>
+                                                    <Switch
+                                                        className='data-[state=checked]:bg-purple-500 cursor-pointer'
+                                                        checked={settings.pvp.player1GoesFirst}
+                                                        onCheckedChange={(checked) => { updatePVPSettings({ player1GoesFirst: checked }) }}
+                                                    />
+                                                </div>
+                                                <div className="flex items-center space-x-2 flex-1">
+                                                    <Label className='text-white/80 text-sm font-medium'>Tùy chỉnh</Label>
+                                                    <Switch
+                                                        className='data-[state=checked]:bg-purple-500 cursor-pointer'
+                                                        checked={settings.pvp.customPileEnabled}
+                                                        onCheckedChange={(checked) => { updatePVPSettings({ customPileEnabled: checked }) }}
+                                                    />
+                                                </div>
                                             </div>
                                             <div className="custom-piles-container space-y-3">
-                                                <Label className="text-white/80 text-sm font-medium">Tùy chỉnh số lượng đá mỗi đống</Label>
+                                                <Label className="text-white/80 text-sm font-medium">Tùy chỉnh Piles:</Label>
                                                 <Input
                                                     id="custom-piles"
                                                     className='bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-purple-400/50 focus:border-purple-400/50'
@@ -151,8 +154,7 @@ const PVPGameSetting = ({ isOpen, onClose, onStartGame, updatePVPSettings, setti
                                                     value={customPiles}
                                                     onChange={(e) => handleCustomPilesChange(e.target.value)}
                                                 />
-
-                                                <p className='text-xs text-white/50'>Nhập kích thước các đống cách nhau bằng dấu phẩy từ, tối đa 9 đống,mỗi đống có tối đa 9 viên đá. Mặc định là 6 đống</p>
+                                                <p className='text-xs text-white/50'>Nhập kích thước các đống (Pile) cách nhau bằng dấu phẩy từ, tối đa 9 đống,mỗi đống (Pile) có tối đa 9 viên đá. Mặc định là 6 đống (Pile)</p>
                                             </div>
                                         </motion.div>
                                     )}
